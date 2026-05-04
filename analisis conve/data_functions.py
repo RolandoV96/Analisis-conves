@@ -6,7 +6,17 @@ import io
 from contextlib import redirect_stdout
 
 
-
+def verificacion_archivo(archivo,tipo):
+    if tipo == "XlsX":
+        df = pd.read_excel(archivo, skiprows=6)
+        validado= f"se abrio archivo {tipo}"
+    elif tipo =="CSV": 
+        df = pd.read_csv(archivo, skiprows=6)
+        validado= f"se abrio archivo {tipo}"
+    else:
+         df = None
+         validado = "Error, tipo de dato None"
+    return df,validado
 
 # Hace la revision de los datos iniciales
 def diagnostico(df):
@@ -28,10 +38,11 @@ def diagnostico(df):
 
 # bucle para crear una tabla y verificar el nombre de la columna y su tipo de dato
 def tipo_columnas(df):
-    tabla = {}
-    for i, columna in enumerate(df.columns):
-        tabla[f"fila_{i}"] = {"Columna": columna, "Tipo de dato": str(df[columna].dtype)}
-        df_tabla = pd.DataFrame(tabla)
+    filas = []
+    for columna in df.columns:
+        fila = {"Columna": columna, "Tipo de dato": str(df[columna].dtype)}
+        filas.append(fila)
+        df_tabla = pd.DataFrame(filas)
     return df_tabla
 
 # verifica si la columna ya es del tipo de datos solicitado si no manda hacer el cambio
