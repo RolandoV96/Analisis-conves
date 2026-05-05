@@ -8,6 +8,8 @@ import random
 CONST_SEED = 22
 np.random.seed(CONST_SEED)
 random.seed(CONST_SEED)
+warnings.filterwarnings("ignore", category=FutureWarning, module="pandas")
+warnings.filterwarnings("ignore", category=UserWarning, module="streamlit")
 
 # ===== Configuración de pandas y warnings =================
 warnings.filterwarnings("ignore")

@@ -2,15 +2,15 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import config
 from data_functions import verificacion_archivo
 from data_functions import diagnostico 
 from data_functions import verificacion_previo_cambio 
 from data_functions import tipo_columnas 
-from config import SEPARADOR
 
 def main():
     st.title('Dashboard de Análisis')
-    st.markdown(SEPARADOR)
+    st.markdown(config.SEPARADOR)
     
     # Sidebar
     st.sidebar.header('Filtros')
@@ -58,7 +58,7 @@ def main():
                 st.dataframe(estructura)
 
                 # cambio de datos
-                st.markdown(SEPARADOR)
+                st.markdown(config.SEPARADOR)
                 st.header('Cambio de datos')
                 
                 # Seleccionar columnas y tipo de dato para cambiar
