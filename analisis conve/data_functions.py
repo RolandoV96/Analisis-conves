@@ -1,7 +1,5 @@
 # data_functions.py
 import config
-import pandas as pd
-import numpy as np
 from scipy.stats import mannwhitneyu, anderson, spearmanr
 import io
 from contextlib import redirect_stdout
@@ -9,10 +7,10 @@ from contextlib import redirect_stdout
 
 def verificacion_archivo(archivo,tipo):
     if tipo == "XlsX":
-        df = pd.read_excel(archivo, skiprows=6)
+        df = config.pd.read_excel(archivo, skiprows=6)
         validado= f"se abrio archivo {tipo}"
     elif tipo =="CSV": 
-        df = pd.read_csv(archivo, skiprows=6)
+        df = config.pd.read_csv(archivo, skiprows=6)
         validado= f"se abrio archivo {tipo}"
     else:
          df = None
@@ -43,7 +41,7 @@ def tipo_columnas(df):
     for columna in df.columns:
         fila = {"Columna": columna, "Tipo de dato": str(df[columna].dtype)}
         filas.append(fila)
-        df_tabla = pd.DataFrame(filas)
+        df_tabla = config.pd.DataFrame(filas)
     return df_tabla
 
 # verifica si la columna ya es del tipo de datos solicitado si no manda hacer el cambio
@@ -67,15 +65,15 @@ def verificacion_previo_cambio(df,column_name,target_type):
 
 # cambia a date time el tipo de dato de la columna y Dataframe esecificados
 def change_date_time(df, column_name):
-    df[column_name]=pd.to_datetime(df[column_name], errors="coerce")
+    df[column_name]=config.pd.to_datetime(df[column_name], errors="coerce")
     return df
 
 # cambia a entero el tipo de dato de la columna y Dataframe esecificados
 def change_int(df, column_name):
-    df[column_name] = pd.to_numeric(df[column_name], errors="coerce").astype("Int64")
+    df[column_name] = config.pd.to_numeric(df[column_name], errors="coerce").astype("Int64")
     return df
 
 # cambia a tipo float el tipo de dato de la columna y Dataframe esecificados
 def change_float(df, column_name):
-    df[column_name] = pd.to_numeric(df[column_name], errors="coerce")
+    df[column_name] = config.pd.to_numeric(df[column_name], errors="coerce")
     return df

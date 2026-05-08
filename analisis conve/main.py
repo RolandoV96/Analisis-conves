@@ -1,12 +1,8 @@
 #main
-import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
 import config
-from data_functions import verificacion_archivo
-from data_functions import diagnostico 
-from data_functions import verificacion_previo_cambio 
-from data_functions import tipo_columnas 
+import streamlit as st
+import matplotlib.pyplot as plt
+import data_functions
 
 def main():
     st.title('Dashboard de Análisis')
@@ -29,7 +25,7 @@ def main():
 
         if uploaded_file is not None:
             if 'uploaded_file_name' not in st.session_state or st.session_state.uploaded_file_name != uploaded_file.name:
-                data, validacion = verificacion_archivo(uploaded_file, tipo_archivo)
+                data, validacion = data_functions.verificacion_archivo(uploaded_file, tipo_archivo)
                 st.session_state.data = data  # Guardar en session_state
                 st.session_state.uploaded_file_name = uploaded_file.name
                 st.toast(validacion)
@@ -39,7 +35,7 @@ def main():
         
             # Mostrar información básica
             try:
-                diag = diagnostico(data)
+                diag = data_functions.diagnostico(data)
                 st.subheader('Información del Archivo')
             
             
@@ -54,8 +50,8 @@ def main():
                 st.dataframe(diag['muestra'])
 
                 st.subheader('tipo de Datos')
-                estructura= tipo_columnas(data)
-                st.dataframe(estructura)
+                estructura= data_functions.tipo_columnas(data)
+                st.dataframe(data)
 
                 # cambio de datos
                 st.markdown(config.SEPARADOR)
@@ -81,7 +77,7 @@ def main():
                     if column_name == None or target_type == None:
                         st.warning("favor de seleccionar columna y/o tipo")
                     else:
-                        change, verificacion = verificacion_previo_cambio(st.session_state.data, column_name, target_type)
+                        change, verificacion = data_functions.verificacion_previo_cambio(st.session_state.data, column_name, target_type)
                         st.session_state.data = change  # Actualizar session_state
                         data = st.session_state.data    # Actualizar variable local
                         st.toast(verificacion)
